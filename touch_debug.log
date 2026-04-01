@@ -1,0 +1,62 @@
+=== Touch Debug Log Started ===
+Window size: (1280, 640)
+[BUTTON_POSITIONS] === Button Position Debug ===
+[BTN_POS] Ready (PowerUp): pos=[0, 0], size=[45.99999999999999, 52]
+[BTN_POS] Abort (PowerDown): pos=[53.99999999999999, 0], size=[45.99999999999999, 52]
+[BTN_POS] Spray & Plunge: pos=[0, 0], size=[100, 52]
+[BTN_POS] Clean: pos=[10, 10], size=[80, 60]
+[WINDOW_TOUCH] Raw touch at (811.2, 342.7) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CLEAN] Touch at (811.2, 342.7) - collides: True, result: None
+  CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (836.1, 370.7) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CLEAN] Touch at (836.1, 370.7) - collides: True, result: None
+  CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (802.3, 362.7) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CLEAN] Touch at (802.3, 362.7) - collides: True, result: None
+  CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (933.9, 302.3) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CLEAN] Touch at (933.9, 302.3) - collides: True, result: None
+  CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (763.1, 326.2) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (635.1, 307.3) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CONTROL] Touch at (635.1, 307.3) - collides: True, result: None
+  ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (773.8, 310.3) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CLEAN] Touch at (773.8, 310.3) - collides: True, result: None
+  CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (734.7, 358.2) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CONTROL] Touch at (734.7, 358.2) - collides: True, result: True
+  ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (711.5, 442.2) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[TOUCH_CONTROL] Touch at (711.5, 442.2) - collides: True, result: None
+  ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (124.5, 561.1) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (277.5, 556.6) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (270.4, 557.6) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]
+[WINDOW_TOUCH] Raw touch at (257.9, 552.6) on window size (1280, 640)
+[CONTROL_POS] ControlPanel: pos=[15, 169.0], size=[741.0, 376.0]
+[CLEAN_POS] CleaningPanel: pos=[771.0, 169.0], size=[494.0, 376.0]

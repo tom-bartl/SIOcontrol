@@ -5,6 +5,10 @@ import argparse
 from SIOpinlist import O_spray_ctrl
 
 
+SPRAY_CTRL_ACTIVE_LEVEL = GPIO.LOW
+SPRAY_CTRL_INACTIVE_LEVEL = GPIO.HIGH
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='SIO spray-control arm/disarm')
     parser.add_argument('--updown', help='Select power state', required=True, choices=('up', 'down'))
@@ -15,11 +19,11 @@ if __name__ == '__main__':
     GPIO.setup(O_spray_ctrl, GPIO.OUT)
 
     if args.updown == 'up':
-        GPIO.output(O_spray_ctrl, GPIO.HIGH)
+        GPIO.output(O_spray_ctrl, SPRAY_CTRL_INACTIVE_LEVEL)
         print("Spray control armed")
     else:
-        GPIO.output(O_spray_ctrl, GPIO.LOW)
-        print("Spray control disarmed")
+        GPIO.output(O_spray_ctrl, SPRAY_CTRL_INACTIVE_LEVEL)
+        print("Spray control set to inactive level")
 
     print("Operation completed")
 
