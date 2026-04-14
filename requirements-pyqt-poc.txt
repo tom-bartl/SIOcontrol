@@ -1,0 +1,3 @@
+# For Raspberry Pi OS, prefer system package `python3-pyqt5` via apt.
+# Keep PyQt6 here for non-Pi environments where pip wheels are available.
+PyQt6>=6.6
