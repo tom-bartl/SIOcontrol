@@ -1,48 +1,44 @@
 # SIOcontrol - Shake-it-off Device Control
 
-A Raspberry Pi-based control system for automated sample preparation with cryogenic spray and plunge mechanisms.
+A Raspberry Pi-based control system for automated sample preparation with piezo spray and plunge freezing mechanisms.
 
 ## Overview
 
-**Shake-it-off** is the PyQt GUI application for controlling the SIO (Sample Injection & Orientation) device—an automated system designed for rapid sample preparation in laboratory environments. The device combines piezo spray, pneumatic plunging, and temperature monitoring to deliver reproducible, high-speed samples for analysis.
+**Shake-it-off** is the Python GUI application for controlling the SIO (Shake-it-off) device - a cheap automated system designed for spraying the sample onto the grids and automaticly plunge freezing them.
 
 ### Key Capabilities
 - **Automated spray and plunge** control with configurable timing
-- **Cryogenic safety interlock** monitoring (temperature-sensitive)
+- **Cryostat safety interlock** prevents operation without the vitrification dewar
 - **Plunger position sensing** via IR proximity detection
-- **System cleaning cycles** with multi-pulse spray control
-- **Touch-friendly GUI** with debounce for resistive screens
+- **Sprayer cleaning** with multi-pulse spray control
+- **Touch-friendly GUI**
 - **Real-time status monitoring** and logging
 
 ## Hardware Components
 
 ### Main Actuators
-- **Plunger Solenoid** (GPIO 20): Engages sample holder
-- **Retract Solenoid** (GPIO 21): Retracts plunger mechanism
-- **Piezo Spray System** (GPIO 13, MOSFET-controlled): Controls spray using pneumatic pressure
-- **Spray Control Lines**: Pulsed control for start/stop spray sequences
+- **Plunger Solenoid** (GPIO 20): Plunges the grid into the vitrification dewar
+- **Retract Solenoid** (GPIO 21): Retracts the spray mechanism to free space for the plunger
+- **Piezo Spray System** (GPIO 13): Controls piezo spray module
 
 ### Sensors & Safety
 - **Plunger IR Proximity Sensor** (GPIO 12): Detects plunger position (READY/PLUNGED)
-- **Cryostat Interlock** (GPIO 6, Reed Switch): Safety cutoff if cryogenic chamber is not at temperature
-- **Sensor Power Control** (GPIO 26): Powers sensor circuits on demand
+- **Cryostat Interlock** (GPIO ): Safety cutoff if vitrifaction dewar is not present
 
 ### Electronics
-- Raspberry Pi GPIO control (BCM mode)
-- MOSFET drivers for high-current loads
-- Pull-up configured interlock reed switch
-- PCB schematics in `PCB/` directory
+- Raspberry Pi GPIO control
+- Solidstate realay modules (to prevent spraking in cobustible enviroment)
+- Electronic schematics in `PCB/` directory
 
 ## System Requirements
 
 ### Hardware
 - **Raspberry Pi** 3B, 3B+, 4, or 5
 - **GPIO Pin Compatibility**: Standard 40-pin header
-- **Power Supply**: 5V USB-C (Pi) + 24V source for solenoids/spray system
-- **Assembly**: See [Assembly Instructions](#assembly-instructions)
+- **Power Supply**: 5V USB-C (Pi) + 24V source for solenoids + 5V for sensors and piezo spray module
 
 ### Software
-- **OS**: Raspberry Pi OS (Bullseye or later recommended)
+- **OS**: Raspberry Pi OS
 - **Python**: 3.7 or later
 - **PyQt**: 5.x or 6.x
   - On Raspberry Pi OS (preferred): `sudo apt install python3-pyqt5`
@@ -93,43 +89,25 @@ Or via desktop launcher after running `install_linux_launcher.sh`.
 
 **Control Panel**:
 - **Spray Time (ms)**: Duration of piezo spray pulse (default: 5 ms, adjustable with +/- buttons)
-- **Plunge Delay (ms)**: Delay from spray start to plunger engagement (default: 5 ms)
+- **Plunge Delay (ms)**: Delay from spray start to plunger engagement (default: 5 ms), the retract solenoid activates in the middle of the delay
 - **Do Not Plunge**: Checkbox to skip the plunge phase (spray-only mode)
-- **Spray & Plunge Button**: Initiates the complete sequence (red, disabled until armed)
+- **Spray & Plunge Button**: Initiates the complete sequence (disabled until armed)
 
 **Status Indicators**:
-- **Plunger Position**: Colored dot showing status
+- **Plunger Position**:
   - 🟢 **READY**: Plunger retracted, ready to plunge
   - 🔴 **PLUNGED**: Plunger engaged with sample
-  - ⚫ **N/A**: Sensor not ready
-- **System Status**: Real-time log of operations and errors
+- **Cryostat interlock**:
+  - 🟢 **OK**: Cryostat present, normal operation
+  - 🔴 **EMPTY**: Cryostat not prosent or not placed correcectly, all opration disabled except cleaning.
 
-**Safety Controls**:
-- **Arm/Disarm Button**: Arms the system for spray/plunge operations
-- **Cryostat Interlock**: Safety check for cryogenic chamber status
-  - System will not operate if interlock is not satisfied (e.g., cryostat not cold)
-
-### Command-Line Utilities
-
-**Apply & Spray**:
-```bash
-python3 SIOapplyandplunge.py --stime 0.5 --sdelay 0.1
-```
-- `--stime`: Spray pulse duration (seconds)
-- `--sdelay`: Delay before spray starts (seconds)
-
-**Cleaning Cycle**:
-```bash
-python3 SIOclean.py --stime 0.2 --cycles 10
-```
-- `--stime`: Duration of each spray pulse (seconds, default: 0.2)
-- `--cycles`: Number of cleaning pulses (default: 5)
-
-**Power Control**:
-```bash
-python3 SIOpowerupdown.py --updown up    # Arm spray system
-python3 SIOpowerupdown.py --updown down  # Disarm spray system
-```
+### Operation
+1. Power up the control computer
+2. Connect all the connectors and press the turn on swith on the front (starts glowing green)
+3. Launch SIO Control
+4. Verify funcionality of the sensors - plunger and cryostat interlock
+5. Place the vitrification dewar in its place. The "Cryostat Interlock" should turn green
+6. 
 
 ## Hardware Schematics
 
@@ -146,15 +124,6 @@ python3 SIOpowerupdown.py --updown down  # Disarm spray system
 
 *Complete hardware documentation with pinout diagrams and electrical schematics coming soon.*
 
-## Assembly Instructions
-
-### Overview
-Assembly involves three main stages:
-1. **Mechanical assembly** of actuators and sensors (2-3 hours)
-2. **Electrical integration** of solenoids, sensors, and control circuits (1-2 hours)
-3. **Software setup** and calibration (30-45 minutes)
-
-**Difficulty Level**: Intermediate - requires soldering, mechanical alignment, and GPIO understanding
 
 ### Mechanical Assembly (Placeholder)
 
@@ -182,42 +151,25 @@ See `CAD_files/` for 3D models. General steps:
 
 *Wiring diagram and PCB assembly guide coming soon.*
 
-### Software Setup
-
-1. **Clone repository** (see [Installation](#installation))
-2. **Install dependencies**: `sudo apt install python3-pyqt5`
-3. **Verify GPIO access**: User must be in `gpio` group
-   ```bash
-   sudo usermod -a -G gpio $USER
-   # Log out and back in for group change to take effect
-   ```
-4. **Test hardware**:
-   ```bash
-   python3 SIOpowerupdown.py --updown up    # Should initialize spray
-   python3 SIOpowerupdown.py --updown down  # Should disarm
-   ```
-5. **Launch GUI**: `python3 SIOgui.py`
-6. **Calibrate timing**: Adjust spray time and plunge delay for your setup
-
 ## Code Structure
 
 | File | Purpose |
 |------|---------|
-| `SIOgui.py` | Main PyQt GUI application (742 lines) |
+| `SIOgui.py` | Main PyQt GUI application |
 | `SIOapplyandplunge.py` | Spray & plunge operation script |
 | `SIOclean.py` | System cleaning cycle script |
 | `SIOpowerupdown.py` | Spray system arm/disarm control |
 | `SIOpinlist.py` | GPIO pin definitions (BCM numbering) |
 | `sio_widgets.py` | Custom PyQt widgets (touch-optimized) |
 
-## GPIO Pin Mapping (BCM)
+## GPIO Pin Mapping
 
 | GPIO | Direction | Function | RPi Pin |
 |------|-----------|----------|---------|
 | 20 | OUT | Plunger solenoid | 38 |
 | 21 | OUT | Retract solenoid | 40 |
 | 26 | OUT | Sensor power control | 37 |
-| 13 | OUT | Spray control (MOSFET) | 33 |
+| 13 | OUT | Spray control | 33 |
 | 12 | IN | Plunger IR sensor signal | 32 |
 | 6 | IN | Cryostat interlock (pullup) | 31 |
 
