@@ -4,7 +4,7 @@ A Raspberry Pi-based control system for automated sample preparation with piezo 
 
 ## Overview
 
-**Shake-it-off** is the Python GUI application for controlling the SIO (Shake-it-off) device - a cheap automated system designed for spraying the sample onto the grids and automaticly plunge freezing them.
+**Shake-it-off** is the Python GUI application for controlling the SIO (Shake-it-off) device - an automated system designed for spraying the sample onto the grid and automaticly plunge freezing them.
 
 ### Key Capabilities
 - **Automated spray and plunge** control with configurable timing
@@ -14,20 +14,65 @@ A Raspberry Pi-based control system for automated sample preparation with piezo 
 - **Touch-friendly GUI**
 - **Real-time status monitoring** and logging
 
+## Usage
+
+### GUI Application
+
+**Launch the application**:
+```bash
+python3 SIOgui.py
+```
+
+Or via desktop launcher after running `install_linux_launcher.sh`.
+
+### Main Controls
+
+**Control Panel**:
+- **Spray Time (ms)**: Duration of piezo spray pulse (default: 5 ms, adjustable with +/- buttons)
+- **Plunge Delay (ms)**: Delay from spray start to plunger engagement (default: 5 ms), the retract solenoid activates in the middle of the delay
+- **Do Not Plunge**: Checkbox to skip the plunge phase (spray-only mode)
+- **Spray & Plunge Button**: Initiates the complete sequence (disabled until armed)
+
+**Status Indicators**:
+- **Plunger Position**:
+  - 🟢 **READY**: Plunger armed, ready to plunge
+  - 🔴 **PLUNGED**: Plunger unpowere in lower position (if tweezer is attached, the grid should be submerged in ethane at this point)
+- **Cryostat interlock**:
+  - 🟢 **OK**: Cryostat present, normal operation
+  - 🔴 **EMPTY**: Cryostat not prosent or not placed correcectly, all opration disabled except cleaning.
+
+### Operation
+1. Power up the control computer and plug the SIO power source
+2. Connect all the connectors and press the turn on swith on the front (starts glowing green)
+3. Launch SIO Control
+4. Verify funcionality of the sensors - plunger sensor and cryostat interlock
+5. Place the vitrification dewar in its place. The "Cryostat Interlock" should turn green
+6. Pull the spray plate to the forward position (or rather push it from behind)
+7. Set your parameters
+8. Press "READY" button
+9. Push the plunger to the upper position, it should stay there and the plunger indicator status should change to green
+10. If you wish to abort, press "ABORT" button and manualy pull the plunger back to the lower position
+11. Place the tweezer with a grid attached to the plunger
+12. Alingn the spray disc with the grid (the distance can be adjusted by loosing the 4 screws on top, rotating the edjustment screw to move it closer or further and tightenining the 4 screws again)
+13. Apply sample with a pipette to the centre of the spray disc
+14. Make sure everything is aligned and free to move
+15. Press the "APPLY and PLUNGE" button (alternatively check the "do not plunge" checkbox)
+16. Remove the tweezer from the plunger and transfer the grid into the grid box
+
 ## Hardware Components
 
 ### Main Actuators
 - **Plunger Solenoid** (GPIO 20): Plunges the grid into the vitrification dewar
 - **Retract Solenoid** (GPIO 21): Retracts the spray mechanism to free space for the plunger
-- **Piezo Spray System** (GPIO 13): Controls piezo spray module
+- **Piezo Spray System** (GPIO 13): Controls piezo spray module (the pin signal emulates a button press, taking the module input pin to GND for shot pulse. The module detects 3 different button presses - 1. start spraying, 2. spray for 5 hours, 3. stop spraying. So the control sends two singals at the start of the spraying and for the module to be ready to stop it and than the third signal at end of the reqired spray period.)
 
 ### Sensors & Safety
 - **Plunger IR Proximity Sensor** (GPIO 12): Detects plunger position (READY/PLUNGED)
-- **Cryostat Interlock** (GPIO ): Safety cutoff if vitrifaction dewar is not present
+- **Cryostat Interlock** (GPIO 6): Safety cutoff if vitrifaction dewar is not present
 
 ### Electronics
 - Raspberry Pi GPIO control
-- Solidstate realay modules (to prevent spraking in cobustible enviroment)
+- Solidstate DC/DC realay modules (to prevent sparking in cobustible enviroment)
 - Electronic schematics in `PCB/` directory
 
 ## System Requirements
@@ -74,40 +119,7 @@ A Raspberry Pi-based control system for automated sample preparation with piezo 
    - Trusted execution flags
    - Auto-start from project directory
 
-## Usage
 
-### GUI Application
-
-**Launch the application**:
-```bash
-python3 SIOgui.py
-```
-
-Or via desktop launcher after running `install_linux_launcher.sh`.
-
-### Main Controls
-
-**Control Panel**:
-- **Spray Time (ms)**: Duration of piezo spray pulse (default: 5 ms, adjustable with +/- buttons)
-- **Plunge Delay (ms)**: Delay from spray start to plunger engagement (default: 5 ms), the retract solenoid activates in the middle of the delay
-- **Do Not Plunge**: Checkbox to skip the plunge phase (spray-only mode)
-- **Spray & Plunge Button**: Initiates the complete sequence (disabled until armed)
-
-**Status Indicators**:
-- **Plunger Position**:
-  - 🟢 **READY**: Plunger retracted, ready to plunge
-  - 🔴 **PLUNGED**: Plunger engaged with sample
-- **Cryostat interlock**:
-  - 🟢 **OK**: Cryostat present, normal operation
-  - 🔴 **EMPTY**: Cryostat not prosent or not placed correcectly, all opration disabled except cleaning.
-
-### Operation
-1. Power up the control computer
-2. Connect all the connectors and press the turn on swith on the front (starts glowing green)
-3. Launch SIO Control
-4. Verify funcionality of the sensors - plunger and cryostat interlock
-5. Place the vitrification dewar in its place. The "Cryostat Interlock" should turn green
-6. 
 
 ## Hardware Schematics
 
@@ -178,7 +190,7 @@ See `CAD_files/` for 3D models. General steps:
 - Spray control pin added (MOSFET controls power to piezo spray)
 - Cryostat sensor changed to simple reed switch with pull-up (switch normally open, closes to pull pin to ground)
 
-## Known Issues & Troubleshooting
+## Possible Issues & Troubleshooting
 
 ### GUI &amp; Operation
 - **Button presses not registering**: Touch screens may need debounce adjustment in `SIOgui.py` (default: 0.22s)
@@ -186,9 +198,8 @@ See `CAD_files/` for 3D models. General steps:
 - **Spray & Plunge button disabled**: Verify arm button is pressed and cryostat interlock is satisfied
 
 ### Hardware
-- **Solenoids not firing**: Check 24V power supply and MOSFET driver connection
-- **IR sensor not detecting**: Verify sensor alignment and lens clarity
-- **Cryostat interlock stuck**: Check reed switch and GPIO 6 pull-up resistor
+- **Solenoids not firing**: Check 24V power supply and relays connection
+- **IR sensor not detecting**: Verify sensor alignment
 
 ### Software
 - **ImportError: No module named 'RPi.GPIO'**: Install `python3-dev` and `python3-rpi.gpio`
