@@ -42,22 +42,22 @@ Or via desktop launcher after running `install_linux_launcher.sh`.
   - 🔴 **EMPTY**: Cryostat not prosent or not placed correcectly, all opration disabled except cleaning.
 
 ### Operation
-1. Power up the control computer and plug the SIO power source
-2. Connect all the connectors and press the turn on swith on the front (starts glowing green)
-3. Launch SIO Control
-4. Verify funcionality of the sensors - plunger sensor and cryostat interlock
-5. Place the vitrification dewar in its place. The "Cryostat Interlock" should turn green
-6. Pull the spray plate to the forward position (or rather push it from behind)
-7. Set your parameters
-8. Press "READY" button
-9. Push the plunger to the upper position, it should stay there and the plunger indicator status should change to green
-10. If you wish to abort, press "ABORT" button and manualy pull the plunger back to the lower position
-11. Place the tweezer with a grid attached to the plunger
-12. Alingn the spray disc with the grid (the distance can be adjusted by loosing the 4 screws on top, rotating the edjustment screw to move it closer or further and tightenining the 4 screws again)
-13. Apply sample with a pipette to the centre of the spray disc
-14. Make sure everything is aligned and free to move
-15. Press the "APPLY and PLUNGE" button (alternatively check the "do not plunge" checkbox)
-16. Remove the tweezer from the plunger and transfer the grid into the grid box
+1. Power up the control computer and plug the SIO power source.
+2. Connect all the connectors and press the turn-on switch on the front (starts glowing green).
+3. Launch SIO Control.
+4. Verify functionality of the sensors - plunger sensor and cryostat interlock.
+5. Place the vitrification dewar in its place. The "Cryostat Interlock" should turn green.
+6. Pull the spray plate to the forward position (or rather push it from behind).
+7. Set your parameters.
+8. Press the "READY" button.
+9. Push the plunger to the upper position; it should stay there and the plunger indicator status should change to green.
+10. If you wish to abort, press the "ABORT" button and manually pull the plunger back to the lower position.
+11. Place the tweezer with a grid attached to the plunger.
+12. Align the spray disc with the grid (the distance can be adjusted by loosening the 4 screws on top, rotating the adjustment screw to move it closer or further, and tightening the 4 screws again).
+13. Apply sample with a pipette to the centre of the spray disc.
+14. Make sure everything is aligned and free to move.
+15. Press the "APPLY and PLUNGE" button (alternatively check the "do not plunge" checkbox).
+16. Remove the tweezer from the plunger and transfer the grid into the grid box.
 
 ## Hardware Components
 
