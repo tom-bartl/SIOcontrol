@@ -1,10 +1,10 @@
 # SIOcontrol - Shake-it-off Device Control
 
-A Raspberry Pi-based control system for automated sample preparation with piezo spray and plunge freezing mechanisms.
+A Raspberry Pi-based control system for automated sample preparation with piezo spray and solenoid plunge freezing mechanism.
 
 ## Overview
 
-**Shake-it-off** is the Python GUI application for controlling the SIO (Shake-it-off) device - an automated system designed for spraying the sample onto the grid and automaticly plunge freezing them.
+**SIOcontrol** is the Python GUI application for controlling the SIO (Shake-it-off) device - an automated system designed for spraying the sample onto the grid and automaticly plunge freezing them.
 
 ### Key Capabilities
 - **Automated spray and plunge** control with configurable timing
@@ -58,6 +58,10 @@ Or via desktop launcher after running `install_linux_launcher.sh`.
 14. Make sure everything is aligned and free to move.
 15. Press the "APPLY and PLUNGE" button (alternatively check the "do not plunge" checkbox).
 16. Remove the tweezer from the plunger and transfer the grid into the grid box.
+
+In case od freezing on the spray disc, you can press the interlock switch by hand and while pressing, continue with the "READY" button, than you can release the switch and only place the cryostat at the loast moment. **DO NOT** try to heat up or dry the spraying disc with a hair dryer.
+
+<img width="1274" height="593" alt="Screenshot 2026-04-30 at 17 16 21" src="https://github.com/user-attachments/assets/f24fb5a3-3fe4-4e88-8d7c-043cc38a5488" />
 
 ## Hardware Components
 
@@ -123,45 +127,15 @@ Or via desktop launcher after running `install_linux_launcher.sh`.
 
 ## Hardware Schematics
 
-**Note**: Hardware schematics and detailed CAD designs are placeholders and will be updated. Current design files are in:
 - **3D CAD Models**: `CAD_files/` (Fusion 360 .f3d and STEP formats)
-  - Connector assemblies
-  - Plunging solenoid holder
-  - Small solenoid base
-  - Piezo mount
-  - Cryogenic container
-- **PCB Designs**: `PCB/` (Altium/Eagle formats)
-  - Schematic (`shake-it-off-v1-main.sch`)
-  - PCB layout (`shake-it-off-v1-main.PCB`)
 
-*Complete hardware documentation with pinout diagrams and electrical schematics coming soon.*
+<img width="516" height="707" alt="Screenshot 2026-04-30 at 17 36 19" src="https://github.com/user-attachments/assets/0db6b2b6-8c2b-4d87-b0b6-7f371f09a91b" />
 
 
-### Mechanical Assembly (Placeholder)
+- **Electronic Designs**:
 
-See `CAD_files/` for 3D models. General steps:
-1. Mount solenoid base on frame
-2. Attach plunging solenoid and retract mechanism
-3. Install plunger tip and sample holder
-4. Mount IR proximity sensor parallel to plunger travel
-5. Install cryostat detection mechanism (reed switch)
-6. Mount piezo spray system with tubing
+<img width="7433" height="5239" alt="SIO-v2 schematics" src="https://github.com/user-attachments/assets/015933d5-f057-4fbe-8ca4-1da29ee1b205" />
 
-*Detailed assembly guide with photos coming soon.*
-
-### Electrical Assembly (Placeholder)
-
-1. **Solenoid wiring** to MOSFET drivers on control PCB
-2. **Sensor connections**:
-   - Plunger IR sensor → GPIO 12
-   - Cryostat reed switch → GPIO 6 (with pull-up)
-3. **Spray control** (MOSFET gate) → GPIO 13
-4. **Power distribution**:
-   - Solenoid power (24V) through current-limiting
-   - Sensor power switched via GPIO 26
-5. **Pi connection**: 40-pin header to control PCB
-
-*Wiring diagram and PCB assembly guide coming soon.*
 
 ## Code Structure
 
@@ -186,31 +160,17 @@ See `CAD_files/` for 3D models. General steps:
 | 6 | IN | Cryostat interlock (pullup) | 31 |
 
 **Hardware Changes** (from original SIO design):
-- Plunger IR sensor now always enabled (legacy enable pin retained for compatibility)
-- Spray control pin added (MOSFET controls power to piezo spray)
-- Cryostat sensor changed to simple reed switch with pull-up (switch normally open, closes to pull pin to ground)
+- Switch from custom MOSFET PCB to solid state relay modules
+- Plunger IR sensor now always enabled (enable pin not used)
+- Spraying module always powered up and controlled via CTRL pin / control button emulation
+- Cryostat sensor changed to simple switch with pull-up (switch normally open, closes to pull pin to ground)
 
 ## Possible Issues & Troubleshooting
 
-### GUI &amp; Operation
 - **Button presses not registering**: Touch screens may need debounce adjustment in `SIOgui.py` (default: 0.22s)
 - **Plunger status shows N/A**: Check IR sensor power and GPIO 12 wiring
 - **Spray & Plunge button disabled**: Verify arm button is pressed and cryostat interlock is satisfied
-
-### Hardware
-- **Solenoids not firing**: Check 24V power supply and relays connection
-- **IR sensor not detecting**: Verify sensor alignment
-
-### Software
-- **ImportError: No module named 'RPi.GPIO'**: Install `python3-dev` and `python3-rpi.gpio`
-  ```bash
-  sudo apt install python3-dev python3-rpi.gpio
-  ```
-- **Permission denied on GPIO**: Add user to `gpio` group (see [Software Setup](#software-setup))
-- **PyQt import errors**: Install PyQt5 via apt (preferred on Pi OS)
-  ```bash
-  sudo apt install python3-pyqt5
-  ```
+- **Spray module always on (with blue LED)**: Check that the button on the module is not pressed
 
 ## Development & Customization
 
@@ -230,9 +190,11 @@ Edit control parameters in the GUI or command-line scripts:
 **Original Project**: [johnrubinstein/SIOcontrol](https://github.com/johnrubinstein/SIOcontrol)
 - Author: John Rubinstein and contributors
 
-**This Fork**: [Your Name/Organization]
+**This Fork**: [Tom Bartl] for ICMM KU / CFIM KU
 - Hardware refinements and PyQt6 compatibility
 - Extended documentation and assembly guides
+
+- Work done at Development Centre @ IOCB Prague, Copenhagen FABLab
 
 *License details: [To be specified]*
 
@@ -242,13 +204,6 @@ Edit control parameters in the GUI or command-line scripts:
 - [RPi.GPIO Python Library](https://pypi.org/project/RPi.GPIO/)
 - [PyQt5 Documentation](https://pypi.org/project/PyQt5/)
 - [Original SIOcontrol Repository](https://github.com/johnrubinstein/SIOcontrol)
-
-## Support & Contributing
-
-For issues, questions, or contributions:
-- Check [Known Issues](#known-issues--troubleshooting)
-- Review the code comments in `SIOgui.py`
-- Open an issue on GitHub
 
 ---
 
